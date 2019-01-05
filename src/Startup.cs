@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DotnetCoreWorker.Jobs;
+using DotnetCoreWorker.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +29,8 @@ namespace DotnetCoreWorker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<ICountRepository, CountRepository>();
+            services.AddHostedService<DecrementJob>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
