@@ -1,26 +1,33 @@
 ﻿namespace DotnetCoreWorker.Jobs
 {
-    using System;
+    using DotnetCoreWorker.Repositories;
+    using Microsoft.Extensions.Logging;
     using System.Threading;
     using System.Threading.Tasks;
 
     public class DecrementJob : IDecrementJob
     {
         private ICountRepository Repository { get; }
+        private ILogger Logger { get; }
 
-        public DecrementJob(ICountRepository repository)
+        public DecrementJob(ILogger<DecrementJob> logger, ICountRepository repository)
         {
+            Logger = logger;
             Repository = repository;
+
+            Logger.LogDebug($"Init {GetType().Name}");
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Logger.LogDebug($"Starting...");
+            await Task.Yield();
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Logger.LogDebug("Stopping...");
+            await Task.Yield();
         }
     }
 }
