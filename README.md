@@ -1,0 +1,2 @@
+# DotnetCoreWorker
+Experimenting with IHostedService
