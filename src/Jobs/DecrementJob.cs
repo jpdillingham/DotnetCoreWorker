@@ -1,6 +1,7 @@
 ﻿namespace DotnetCoreWorker.Jobs
 {
     using DotnetCoreWorker.Repositories;
+    using DotnetCoreWorker.Widgets;
     using Microsoft.Extensions.Logging;
     using System;
     using System.Threading;
@@ -12,11 +13,46 @@
         private ILogger Logger { get; }
         private Timer Timer { get; set; }
 
-        public DecrementJob(ILogger<DecrementJob> logger, ICountRepository repository)
+        //public DecrementJob(ILogger<DecrementJob> logger, ICountRepository repository, WidgetOne widgetOne, WidgetTwo widgetTwo)
+        //{
+        //    Logger = logger;
+        //    Repository = repository;
+
+        //    widgetOne.SayStuff();
+        //    widgetTwo.SayStuff();
+
+        //    Logger.LogDebug($"Init {GetType().Name}");
+        //}
+
+        //public DecrementJob(ILogger<DecrementJob> logger, ICountRepository repository, IServiceProvider serviceProvider)
+        //{
+        //    Logger = logger;
+        //    Repository = repository;
+
+        //    ((WidgetOne)serviceProvider.GetService(typeof(WidgetOne))).SayStuff();
+        //    ((WidgetTwo)serviceProvider.GetService(typeof(WidgetTwo))).SayStuff();
+
+        //    Logger.LogDebug($"Init {GetType().Name}");
+        //}
+
+        //public DecrementJob(ILogger<DecrementJob> logger, ICountRepository repository, IWidgetFactory widgetFactory)
+        //{
+        //    Logger = logger;
+        //    Repository = repository;
+
+        //    widgetFactory.GetWidget<WidgetOne>().SayStuff();
+        //    widgetFactory.GetWidget<WidgetTwo>().SayStuff();
+
+        //    Logger.LogDebug($"Init {GetType().Name}");
+        //}
+
+        public DecrementJob(ILogger<DecrementJob> logger, ICountRepository repository, IWidget widget)
         {
             Logger = logger;
             Repository = repository;
-            
+
+            widget.SayStuff();
+
             Logger.LogDebug($"Init {GetType().Name}");
         }
 
