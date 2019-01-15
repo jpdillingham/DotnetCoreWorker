@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DotnetCoreWorker.Jobs;
 using DotnetCoreWorker.Repositories;
+using DotnetCoreWorker.Widgets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,27 @@ namespace DotnetCoreWorker
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<ICountRepository, CountRepository>();
+
+            services.AddTransient<WidgetOne>(s => 
+                new WidgetOne(s.GetService<ILogger<WidgetOne>>(), "Widget one stuff"));
+
+            services.AddTransient<WidgetTwo>(s =>
+                new WidgetTwo(s.GetService<ILogger<WidgetTwo>>(), "Widget two stuff"));
+
+            services.AddTransient(s =>
+            {
+                var flip = new Random().Next() % 2 == 0;
+
+                if (flip)
+                {
+                    return (IWidget)s.GetService<WidgetOne>();
+                }
+
+                return (IWidget)s.GetService<WidgetTwo>();
+            });
+
+            //services.AddTransient<IWidgetFactory, WidgetFactory>();
+
             services.AddHostedService<DecrementJob>();
         }
 
